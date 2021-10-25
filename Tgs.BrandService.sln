@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandService", "Tgs.BrandService\Tgs.BrandService.csproj", "{A436C3A0-874B-48B6-9228-25DD20D07362}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandService.Core", "BrandService.Core\BrandService.Core.csproj", "{4F8D1950-83B6-4ABD-8224-C1D0402D78AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DB11D9B-3D98-4CCA-9640-DCBDEA8F386C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A436C3A0-874B-48B6-9228-25DD20D07362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A436C3A0-874B-48B6-9228-25DD20D07362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A436C3A0-874B-48B6-9228-25DD20D07362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A436C3A0-874B-48B6-9228-25DD20D07362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F8D1950-83B6-4ABD-8224-C1D0402D78AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8D1950-83B6-4ABD-8224-C1D0402D78AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8D1950-83B6-4ABD-8224-C1D0402D78AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8D1950-83B6-4ABD-8224-C1D0402D78AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C79FF1A2-4395-460C-9BA0-0A9285C0F4F5}
+	EndGlobalSection
+EndGlobal
