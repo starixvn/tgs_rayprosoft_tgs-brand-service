@@ -1,15 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Tgs.BrandService.ApplicationServices;
+using Tgs.BrandService.Models;
+using Tgs.ServiceUtility;
 
 namespace Tgs.BrandService
 {
@@ -20,9 +22,31 @@ namespace Tgs.BrandService
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services
+				.AddBrandCertificateClient((options, sp) =>
+				{
+					options.BrandCertificateBaseUrl = new Uri("https://localhost:5001");
+				})
+				.AddMemoryCache()
+				.AddBrandService()
+				.AddBrandServiceRepositories((sp, builder) =>
+				{
+					var config = sp.GetRequiredService<IConfiguration>();
+
+					builder.UseNpgsql(config.GetConnectionString("Tgs"));
+				})
+				.DecorateRedisBrandCommunicationQueryService((options, sp) =>
+				{
+					var config = sp.GetRequiredService<IConfiguration>();
+
+					options.ConnectionString = config.GetConnectionString("Redis");
+				})
+				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>();
+
+			services
 				.AddControllers()
 				.AddMvcOptions(options =>
 				{
+					options.AddBrandCertificateFilters();
 					options.AddWrapResponseFilters();
 					options.AddWebApiToolkitFilters();
 				});
@@ -39,23 +63,24 @@ namespace Tgs.BrandService
 					});
 
 				options.ApplyTgsWebApiSupport();
+				options.AddBrandCertificateSecurityDefinition();
 
 				var xml = $"Tgs.BrandService.xml";
 				var path = Path.Combine(AppContext.BaseDirectory, xml);
 				if (File.Exists(path))
 					options.IncludeXmlComments(path);
-
 			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
 		{
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseBrandCertificate();
 			app.UseSwaggerUI(options =>
 			{
 				options.SwaggerEndpoint("/swagger/v1/swagger.yaml", "Tgs Brand Api");

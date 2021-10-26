@@ -14,12 +14,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.63">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Scrutor" Version="3.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Tgs.BrandCertificateClient" Version="0.0.11" />
     <PackageReference Include="Tgs.WebApi.Toolkits" Version="0.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BrandService.Core\BrandService.Core.csproj" />
+    <ProjectReference Include="..\BrandService.Repositories\BrandService.Repositories.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="appsettings" /></VisualStudio></ProjectExtensions>
 
 </Project>
