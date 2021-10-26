@@ -27,7 +27,7 @@
 		</PackageReference>
 		<PackageReference Include="Scrutor" Version="3.3.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-		<PackageReference Include="Tgs.BrandCertificateClient" Version="0.0.11" />
+		<PackageReference Include="Tgs.BrandCertificateClient" Version="0.0.12" />
 		<PackageReference Include="Tgs.WebApi.Toolkits" Version="0.0.8" />
 	</ItemGroup>
 
