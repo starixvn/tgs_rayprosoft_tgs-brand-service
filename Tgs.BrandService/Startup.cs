@@ -44,6 +44,7 @@ namespace Tgs.BrandService
 				})
 				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>();
 
+			services.AddRouting(options => options.LowercaseUrls = true);
 			services
 				.AddControllers()
 				.AddMvcOptions(options =>
