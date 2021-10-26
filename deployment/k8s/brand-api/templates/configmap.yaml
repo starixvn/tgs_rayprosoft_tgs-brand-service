@@ -9,5 +9,8 @@ data:
       "ConnectionStrings": {
         "Tgs": "{{ .Values.connectionStrings.tgs }}"
         "Redis": "{{ .Values.connectionStrings.redis }}"
+      },
+      "Brand": {
+        "BrandCertificateBaseUrl": "{{ .Values.brand.certificateBaseUrl }}"
       }
     }

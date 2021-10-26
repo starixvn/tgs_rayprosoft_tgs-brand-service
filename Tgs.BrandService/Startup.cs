@@ -24,7 +24,9 @@ namespace Tgs.BrandService
 			services
 				.AddBrandCertificateClient((options, sp) =>
 				{
-					options.BrandCertificateBaseUrl = new Uri("https://localhost:5001");
+					var config = sp.GetRequiredService<IConfiguration>();
+
+					options.BrandCertificateBaseUrl = config.GetValue<Uri>("Brand:BrandCertificateBaseUrl");
 				})
 				.AddMemoryCache()
 				.AddBrandService()
