@@ -63,7 +63,7 @@ pipeline {
 
 		stage('Build Docker Image') {
 			steps {
-				sh 'dotnet build "Tgs.BrandCertificateService/Tgs.BrandCertificateService.csproj" -c $BuildConfiguration -t:ContainerBuild -p:DockerfileTag="$ImageName:${TAG}" --no-restore '
+				sh 'dotnet build "Tgs.BrandService/Tgs.BrandService.csproj" -c $BuildConfiguration -t:ContainerBuild -p:DockerfileTag="$ImageName:${TAG}" --no-restore '
 			}
 		}
 
@@ -94,22 +94,18 @@ pipeline {
                 withKubeConfig([credentialsId: env.k8s_config]) {
                     withCredentials([string(credentialsId: "tgs-${kube_ns}-connectionstring", variable: "conn")]) {
                         sh '''
-                            helm template deployment/k8s/brand-cert-api \
+                            helm template deployment/k8s/brand-api \
                                 --set image.tag=${TAG} \
                                 --set namespace=${kube_ns} \
                                 --set connectionStrings.tgs="${conn}" \
-                                --set ingress.hosts="{$ingress_host}" \
-                                --set ingress.tls[0].secretName=$ingress_host \
-                                --set ingress.tls[0].hosts="{$ingress_host}"
+                                --set connectionStrings.redis="${tgs_redis}"
                         '''
                         sh '''
-                            helm template deployment/k8s/brand-cert-api \
+                            helm template deployment/k8s/brand-api \
                                 --set image.tag=${TAG} \
                                 --set namespace=${kube_ns} \
-                                --set connectionStrings.tgs="${conn}"  \
-                                --set ingress.hosts="{$ingress_host}" \
-                                --set ingress.tls[0].secretName=$ingress_host \
-                                --set ingress.tls[0].hosts="{$ingress_host}" \
+                                --set connectionStrings.tgs="${conn}" \
+                                --set connectionStrings.redis="${tgs_redis}" \
                             | kubectl -n ${kube_ns} apply -f -
                         '''
                     }
