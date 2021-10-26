@@ -50,7 +50,7 @@ namespace Tgs.BrandService.Models
 						_memoryCache.Set(
 							key,
 							cachedData,
-							TimeSpan.FromHours(1D));
+							TimeSpan.FromSeconds(10D));
 					}
 				}
 				finally
