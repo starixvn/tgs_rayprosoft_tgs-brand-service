@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-{{ include "brand-api.fullname" . }}
+  namespace: {{ .Values.namespace }}
+data:
+  appsettings.json: |
+    {
+      "ConnectionStrings": {
+        "Tgs": "{{ .Values.connectionStrings.tgs }}",
+        "Redis": "{{ .Values.connectionStrings.redis }}"
+      },
+      "Brand": {
+        "BrandCertificateBaseUrl": "{{ .Values.brand.certificateBaseUrl }}"
+      }
+    }

@@ -12,16 +12,21 @@ namespace Tgs.BrandService.Controllers
 	public class BrandCommunicationController : ControllerBase
 	{
 		[HttpGet]
-		public IAsyncEnumerable<BrandCommunicationViewModel> GetBrandCommunicationsAsync()
+		public IAsyncEnumerable<BrandCommunicationViewModel> GetBrandCommunicationsAsync(
+			[FromServices] IQueryService<BrandCommunicationQuery, BrandCommunicationInfo> queryService)
 		{
-			return new[]{
-				new BrandCommunicationViewModel{
-					AppId = "test",
-					Phone ="123456789",
-					QRCodeUrl = "https://test.com/1.png",
-					Type = "type"
-				}
-				}.ToAsyncEnumerable();
+			var brandId = HttpContext.GetBrandId();
+
+			var query = new BrandCommunicationQuery(brandId!.Value);
+
+			return queryService.QueryAsync(query)
+				.Select(info => new BrandCommunicationViewModel
+				{
+					AppId = info.AppId,
+					Phone = info.Phone,
+					QRCodeUrl = info.QRCodeUrl,
+					Type = info.CommunicationType
+				});
 		}
 	}
 }
