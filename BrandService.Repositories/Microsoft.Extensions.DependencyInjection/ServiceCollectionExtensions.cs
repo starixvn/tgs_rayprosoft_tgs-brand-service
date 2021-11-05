@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
 				.AddOptions<RedisOptions>()
 				.Configure(optionsConfigure)
 				.Services
-				.AddSingleton<RedisConnectionFactory>()
-				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, RedisBrandCommunicationQueryService>();
+				.AddSingleton<RedisConnectionFactory>();
+				//.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, RedisBrandCommunicationQueryService>();
 	}
 }
