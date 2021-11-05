@@ -20,6 +20,7 @@ namespace Tgs.BrandService.Repositories.Entities
 
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<BrandCommunication> BrandCommunications { get; set; }
+        public virtual DbSet<BrandLiveChat> BrandLiveChats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -185,6 +186,26 @@ namespace Tgs.BrandService.Repositories.Entities
                 entity.Property(e => e.Type)
                     .HasMaxLength(64)
                     .HasColumnName("type");
+            });
+
+            modelBuilder.Entity<BrandLiveChat>(entity =>
+            {
+                entity.HasKey(e => e.BrandId)
+                    .HasName("pk_brand_live_chats");
+
+                entity.ToTable("brand_live_chats", "dbo");
+
+                entity.Property(e => e.BrandId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("brand_id");
+
+                entity.Property(e => e.ChatName)
+                    .HasMaxLength(128)
+                    .HasColumnName("chat_name");
+
+                entity.Property(e => e.ChatSetting)
+                    .HasColumnType("jsonb")
+                    .HasColumnName("chat_setting");
             });
 
             OnModelCreatingPartial(modelBuilder);

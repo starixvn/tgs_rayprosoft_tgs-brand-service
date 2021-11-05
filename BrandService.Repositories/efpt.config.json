@@ -24,6 +24,10 @@
       {
          "Name": "dbo.brand_communications",
          "ObjectType": 0
+      },
+      {
+         "Name": "dbo.brand_live_chats",
+         "ObjectType": 0
       }
    ],
    "UiHint": ".tgs",

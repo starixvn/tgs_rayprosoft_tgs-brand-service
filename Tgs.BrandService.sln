@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandService.Repositories", "BrandService.Repositories\BrandService.Repositories.csproj", "{9E071E7A-136C-474C-9DF7-18AD25971841}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrandService.Core.UnitTests", "BrandService.Core.UnitTests\BrandService.Core.UnitTests.csproj", "{9F65CF0B-2C27-4775-955F-1634F2BAE3FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{9E071E7A-136C-474C-9DF7-18AD25971841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E071E7A-136C-474C-9DF7-18AD25971841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E071E7A-136C-474C-9DF7-18AD25971841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F65CF0B-2C27-4775-955F-1634F2BAE3FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F65CF0B-2C27-4775-955F-1634F2BAE3FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F65CF0B-2C27-4775-955F-1634F2BAE3FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F65CF0B-2C27-4775-955F-1634F2BAE3FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
