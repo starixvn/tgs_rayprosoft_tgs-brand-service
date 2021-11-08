@@ -34,7 +34,7 @@ namespace Tgs.BrandService.Controllers
 
 		[HttpGet("~/api/brandlivechat")]
 		[HttpGet("livechat")]
-		public async Task<BrandLiveChatViewModel> GetBrandLiveChatAsync(
+		public async Task<BrandLiveChatViewModel?> GetBrandLiveChatAsync(
 			[FromServices] IGetService<BrandLiveChatQuery, BrandLiveChatInfo> queryService)
 		{
 			var brandId = HttpContext.GetBrandId();
@@ -43,7 +43,10 @@ namespace Tgs.BrandService.Controllers
 
 			var info = await queryService.GetAsync(query).ConfigureAwait(false);
 
-			return new BrandLiveChatViewModel()
+			if (info == null)
+				return null;
+
+			return new BrandLiveChatViewModel
 			{
 				Name = info.Name,
 				Setting = string.IsNullOrEmpty(info.Setting)

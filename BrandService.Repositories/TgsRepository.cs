@@ -37,7 +37,7 @@ namespace Tgs.BrandService.Repositories
 			if (brandLiveChat == null)
 				return null;
 
-			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting!);
+			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting);
 		}
 	}
 }
