@@ -49,7 +49,7 @@ namespace Tgs.BrandService.Repositories
 							.ConfigureAwait(false);
 
 						if (value.HasValue)
-							return JsonSerializer.Deserialize<BrandCommunicationInfo[]>(value);
+							return JsonSerializer.Deserialize<BrandCommunicationInfo[]>(value)!;
 						else
 							return Array.Empty<BrandCommunicationInfo>();
 					})
