@@ -20,15 +20,15 @@ namespace Tgs.BrandService.Repositories
 				.Where(row => row.BrandId == brandId)
 				.Select(row => new BrandCommunicationInfo()
 				{
-					CommunicationType = row.Type,
-					Phone = row.Phone,
-					AppId = row.AppId,
-					QRCodeUrl = row.QrCodeUrl
+					CommunicationType = row.Type!,
+					Phone = row.Phone!,
+					AppId = row.AppId!,
+					QRCodeUrl = row.QrCodeUrl!
 				})
 				.Take(5)
 				.ToAsyncEnumerable();
 
-		public async ValueTask<BrandLiveChatInfo> GetBrandLiveChatInfoAsync(Guid brandId)
+		public async ValueTask<BrandLiveChatInfo?> GetBrandLiveChatInfoAsync(Guid brandId)
 		{
 			var brandLiveChat = await _dbContext.BrandLiveChats
 				.FirstOrDefaultAsync(x => x.BrandId == brandId)
@@ -37,11 +37,7 @@ namespace Tgs.BrandService.Repositories
 			if (brandLiveChat == null)
 				return null;
 
-			return new BrandLiveChatInfo()
-			{
-				Name = brandLiveChat.ChatName,
-				Setting = brandLiveChat.ChatSetting
-			};
+			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting!);
 		}
 	}
 }
