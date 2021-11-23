@@ -42,7 +42,8 @@ namespace Tgs.BrandService
 
 					options.ConnectionString = config.GetConnectionString("Redis");
 				})
-				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>();
+				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>()
+				.Decorate<IGetService<BrandLiveChatQuery, BrandLiveChatInfo?>, CachedBrandLiveChatQueryService>();
 
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services

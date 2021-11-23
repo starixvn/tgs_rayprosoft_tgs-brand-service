@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.BrandService.ApplicationServices;
 using Tgs.BrandService.ViewModels;
@@ -9,9 +11,10 @@ namespace Tgs.BrandService.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BrandCommunicationController : ControllerBase
+	public class BrandController : ControllerBase
 	{
-		[HttpGet]
+		[HttpGet("~/api/brandcommunication")]
+		[HttpGet("communication")]
 		public IAsyncEnumerable<BrandCommunicationViewModel> GetBrandCommunicationsAsync(
 			[FromServices] IQueryService<BrandCommunicationQuery, BrandCommunicationInfo> queryService)
 		{
@@ -27,6 +30,29 @@ namespace Tgs.BrandService.Controllers
 					QRCodeUrl = info.QRCodeUrl,
 					Type = info.CommunicationType
 				});
+		}
+
+		[HttpGet("~/api/brandlivechat")]
+		[HttpGet("livechat")]
+		public async Task<BrandLiveChatViewModel?> GetBrandLiveChatAsync(
+			[FromServices] IGetService<BrandLiveChatQuery, BrandLiveChatInfo> queryService)
+		{
+			var brandId = HttpContext.GetBrandId();
+
+			var query = new BrandLiveChatQuery(brandId!.Value);
+
+			var info = await queryService.GetAsync(query).ConfigureAwait(false);
+
+			if (info == null)
+				return null;
+
+			return new BrandLiveChatViewModel
+			{
+				Name = info.Name,
+				Setting = string.IsNullOrEmpty(info.Setting)
+					? JsonDocument.Parse("{}")
+					: JsonDocument.Parse(info.Setting)
+			};
 		}
 	}
 }
