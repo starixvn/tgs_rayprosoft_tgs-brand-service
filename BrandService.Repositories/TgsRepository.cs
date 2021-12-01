@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tgs.BrandService.Repositories.Entities;
 
 namespace Tgs.BrandService.Repositories
@@ -19,12 +20,24 @@ namespace Tgs.BrandService.Repositories
 				.Where(row => row.BrandId == brandId)
 				.Select(row => new BrandCommunicationInfo()
 				{
-					CommunicationType = row.Type,
-					Phone = row.Phone,
-					AppId = row.AppId,
-					QRCodeUrl = row.QrCodeUrl
+					CommunicationType = row.Type!,
+					Phone = row.Phone!,
+					AppId = row.AppId!,
+					QRCodeUrl = row.QrCodeUrl!
 				})
 				.Take(5)
 				.ToAsyncEnumerable();
+
+		public async ValueTask<BrandLiveChatInfo?> GetBrandLiveChatInfoAsync(Guid brandId)
+		{
+			var brandLiveChat = await _dbContext.BrandLiveChats
+				.FirstOrDefaultAsync(x => x.BrandId == brandId)
+				.ConfigureAwait(false);
+
+			if (brandLiveChat == null)
+				return null;
+
+			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting);
+		}
 	}
 }
