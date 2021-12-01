@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +27,10 @@ namespace Tgs.BrandService
 				.AddOptions<CorsOptions>()
 				.Configure<IConfiguration>((options, config) =>
 				{
-					var urls = config.GetValue<string[]>("CorsDomain:Urls");
+					var urls = config.GetSection("CorsDomain:Urls")
+						.GetChildren()
+						.Select(t => t.Get<string>())
+						.ToArray();
 
 					if (urls != null)
 						options.AddDefaultPolicy(
