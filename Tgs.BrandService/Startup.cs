@@ -84,6 +84,7 @@ namespace Tgs.BrandService
 				.AddNatsMessageQueue(natsConfig => natsConfig
 					.ConfigQueueOptions((options, sp) => options.Url = sp.GetRequiredService<IConfiguration>().GetConnectionString("Nats"))					
 					.AddHandler(ProcessorTypes.ClearMaintenanceMemoryCacheHandlerType,
+						"tgs.brandservice.maintenance.cache.clear",
 						"tgs.brandservice.maintenance.cache.clear"))
 					.AddNatsGlobPatternExchange("*");			
 
