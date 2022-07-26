@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Tgs.BrandService.ApplicationServices;
+using Tgs.BrandService.MessageQueue;
 using Tgs.BrandService.Models;
 using Tgs.ServiceUtility;
 
@@ -77,6 +78,15 @@ namespace Tgs.BrandService
 					options.AddWrapResponseFilters();
 					options.AddWebApiToolkitFilters();
 				});
+
+			services
+				.AddMessageQueue()
+				.AddNatsMessageQueue(natsConfig => natsConfig
+					.ConfigQueueOptions((options, sp) => options.Url = sp.GetRequiredService<IConfiguration>().GetConnectionString("Nats"))		
+					.AddHandler(ProcessorTypes.ClearMemoryCacheHandlerType,
+						"tgs.brandservice.maintenance.clearmemorycache",
+						"tgs.brandservice.maintenance.clearmemorycache"))
+					.AddNatsGlobPatternExchange("*");
 
 			services.AddHealthChecks();
 			services.AddSwaggerGen(options =>
