@@ -15,12 +15,12 @@ namespace Tgs.BrandService.Repositories
 	{
 		private readonly StackExchange.Redis.IDatabase _redisDatabase;
 		private readonly IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo?> _targetService;
-		private readonly ILogger<RedisBrandLiveChatQueryService> _logger;
+		private readonly ILogger<RedisBrandMaintenanceQueryService> _logger;
 
 		public RedisBrandMaintenanceQueryService(
 			IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo?> targetService,
 			RedisConnectionFactory redisConnectionFactory,
-			ILogger<RedisBrandLiveChatQueryService> logger)
+			ILogger<RedisBrandMaintenanceQueryService> logger)
 		{
 			if (redisConnectionFactory is null)
 				throw new ArgumentNullException(nameof(redisConnectionFactory));
