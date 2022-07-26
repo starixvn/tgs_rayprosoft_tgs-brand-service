@@ -19,7 +19,7 @@ namespace Tgs.BrandService.MessageQueue
 
 		public ValueTask HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
 		{
-			var request = ClearMaintenanceMemoryCacheRequest.Parser.ParseFrom(data.Span);
+			var request = ClearMaintenanceCacheRequest.Parser.ParseFrom(data.Span);
 
 			var key = $"Maintenance:{request.BrandId}";
 

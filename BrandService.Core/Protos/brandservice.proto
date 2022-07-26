@@ -5,6 +5,6 @@ package brandservice;
 
 import "phoenix/protobuf/guid.proto";
 
-message ClearMaintenanceMemoryCacheRequest {
+message ClearMaintenanceCacheRequest {
 	phoenix.protobuf.GuidValue brand_id = 1;	
 }
