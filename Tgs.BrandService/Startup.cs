@@ -82,11 +82,10 @@ namespace Tgs.BrandService
 			services
 				.AddMessageQueue()
 				.AddNatsMessageQueue(natsConfig => natsConfig
-					.ConfigQueueOptions((options, sp) => options.Url = sp.GetRequiredService<IConfiguration>().GetConnectionString("Nats"))		
-					.AddHandler(ProcessorTypes.ClearMemoryCacheHandlerType,
-						"tgs.brandservice.maintenance.clearmemorycache",
-						"tgs.brandservice.maintenance.clearmemorycache"))
-					.AddNatsGlobPatternExchange("*");
+					.ConfigQueueOptions((options, sp) => options.Url = sp.GetRequiredService<IConfiguration>().GetConnectionString("Nats"))					
+					.AddHandler(ProcessorTypes.ClearMaintenanceMemoryCacheHandlerType,
+						"tgs.brandservice.maintenance.cache.clear"))
+					.AddNatsGlobPatternExchange("*");			
 
 			services.AddHealthChecks();
 			services.AddSwaggerGen(options =>

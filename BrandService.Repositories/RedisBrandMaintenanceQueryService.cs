@@ -15,12 +15,12 @@ namespace Tgs.BrandService.Repositories
 	{
 		private readonly StackExchange.Redis.IDatabase _redisDatabase;
 		private readonly IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo?> _targetService;
-		private readonly ILogger<RedisBrandMaintenanceQueryService> _logger;
+		private readonly ILogger<RedisBrandLiveChatQueryService> _logger;
 
 		public RedisBrandMaintenanceQueryService(
 			IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo?> targetService,
 			RedisConnectionFactory redisConnectionFactory,
-			ILogger<RedisBrandMaintenanceQueryService> logger)
+			ILogger<RedisBrandLiveChatQueryService> logger)
 		{
 			if (redisConnectionFactory is null)
 				throw new ArgumentNullException(nameof(redisConnectionFactory));
@@ -66,7 +66,6 @@ namespace Tgs.BrandService.Repositories
 							.ConfigureAwait(false);
 
 						var key = $"Tgs:Maintenance:{query.BrandId}";
-
 
 						await _redisDatabase
 							.StringSetAsync(
