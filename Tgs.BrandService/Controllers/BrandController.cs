@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.BrandService.ApplicationServices;
 using Tgs.BrandService.ViewModels;
@@ -72,6 +73,21 @@ namespace Tgs.BrandService.Controllers
 			{
 				Content = info.Content
 			};
+		}
+
+		[HttpPut("maintenance")]		
+		public async Task BatchUpdateBrandMaintenanceAsync(
+			BatchUpdateBrandMaintenanceRequest request,
+			[FromServices] ICommandService<BatchUpdateBrandMaintenanceCommand> commandService)
+		{
+			var command = new BatchUpdateBrandMaintenanceCommand
+			{
+				BrandIds = request.BrandIds,
+				BeginTime = request.BeginTime,
+				EndTime = request.EndTime,
+				Content = request.Content
+			};
+			await commandService.ExecuteAsync(command);
 		}
 	}
 }
