@@ -18,6 +18,10 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
+         "Name": "dbo.brand_maintenance",
+         "ObjectType": 0
+      },
+      {
          "Name": "dbo.brands",
          "ObjectType": 0
       },
@@ -30,14 +34,16 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": ".tgs",
+   "UiHint": "LocalDB",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
+   "UseHierarchyId": false,
    "UseInflector": true,
    "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
    "UseNoConstructor": true,
    "UseNoDefaultConstructor": false,
    "UseNoNavigations": true,

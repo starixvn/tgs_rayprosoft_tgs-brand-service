@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.BrandService.ApplicationServices;
 using Tgs.BrandService.ViewModels;
@@ -53,6 +54,40 @@ namespace Tgs.BrandService.Controllers
 					? JsonDocument.Parse("{}")
 					: JsonDocument.Parse(info.Setting)
 			};
+		}
+
+		[HttpGet("maintenance")]
+		public async Task<BrandMaintenanceViewModel?> GetBrandMaintenanceAsync(
+			[FromServices] IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo> getService)
+		{
+			var brandId = HttpContext.GetBrandId();
+
+			var query = new BrandMaintenanceQuery(brandId!.Value);
+
+			var info = await getService.GetAsync(query).ConfigureAwait(false);
+
+			if (info == null)
+				return null;
+
+			return new BrandMaintenanceViewModel
+			{
+				Content = info.Content
+			};
+		}
+
+		[HttpPut("maintenance")]		
+		public async Task BatchUpdateBrandMaintenanceAsync(
+			BatchUpdateBrandMaintenanceRequest request,
+			[FromServices] ICommandService<BatchUpdateBrandMaintenanceCommand> commandService)
+		{
+			var command = new BatchUpdateBrandMaintenanceCommand
+			{
+				BrandIds = request.BrandIds,
+				BeginTime = request.BeginTime,
+				EndTime = request.EndTime,
+				Content = request.Content
+			};
+			await commandService.ExecuteAsync(command);
 		}
 	}
 }

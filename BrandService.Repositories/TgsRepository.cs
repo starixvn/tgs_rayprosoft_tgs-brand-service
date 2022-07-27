@@ -39,5 +39,19 @@ namespace Tgs.BrandService.Repositories
 
 			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting);
 		}
+		
+		public async ValueTask<BrandMaintenanceInfo?> GetBrandMaintenanceInfoAsync(Guid brandId)
+		{
+			var brandMaintenance = await _dbContext.BrandMaintenances
+				.FirstOrDefaultAsync(bm => bm.BrandId == brandId)
+				.ConfigureAwait(false);
+
+			return brandMaintenance == null
+				? null
+				: new BrandMaintenanceInfo(
+				brandMaintenance.Content!,
+				brandMaintenance.BeginTime,
+				brandMaintenance.EndTime);
+		}
 	}
 }
