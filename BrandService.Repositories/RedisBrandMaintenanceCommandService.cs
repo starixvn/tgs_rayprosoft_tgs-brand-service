@@ -45,13 +45,13 @@ namespace Tgs.BrandService.Repositories
 				options.Converters.Add(new TimeOnlyConverter());
 
 				_ = await _redisDatabase
-						.StringSetAsync(
-							key,
-							data == null
-								? string.Empty
-								: JsonSerializer.Serialize(data,options),
-							flags: CommandFlags.FireAndForget)
-						.ConfigureAwait(false);
+					.StringSetAsync(
+						key,
+						data == null
+							? string.Empty
+							: JsonSerializer.Serialize(data, options),
+						flags: CommandFlags.FireAndForget)
+					.ConfigureAwait(false);
 			}
 
 			_logger.LogInformation("Batch Update Maintenance Redis Success");

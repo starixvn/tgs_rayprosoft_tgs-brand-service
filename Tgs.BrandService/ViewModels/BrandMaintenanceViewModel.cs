@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 
 namespace Tgs.BrandService.ViewModels
 {
@@ -7,10 +6,8 @@ namespace Tgs.BrandService.ViewModels
 	{
 		public string Content { get; set; } = default!;
 
-		
 		public TimeOnly BeginTime { get; set; }
 
-		
 		public TimeOnly EndTime { get; set; }
 	}
 }
