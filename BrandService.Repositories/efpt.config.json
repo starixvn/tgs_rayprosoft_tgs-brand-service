@@ -18,10 +18,6 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "Name": "dbo.brand_maintenance",
-         "ObjectType": 0
-      },
-      {
          "Name": "dbo.brands",
          "ObjectType": 0
       },
@@ -31,6 +27,10 @@
       },
       {
          "Name": "dbo.brand_live_chats",
+         "ObjectType": 0
+      },
+      {
+         "Name": "dbo.brand_maintenance",
          "ObjectType": 0
       }
    ],

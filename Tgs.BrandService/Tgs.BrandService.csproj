@@ -20,6 +20,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DateOnlyTimeOnly.AspNet" Version="1.0.3" />
+		<PackageReference Include="DateOnlyTimeOnly.AspNet.Swashbuckle" Version="1.0.3" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
 		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.63">
 			<PrivateAssets>all</PrivateAssets>

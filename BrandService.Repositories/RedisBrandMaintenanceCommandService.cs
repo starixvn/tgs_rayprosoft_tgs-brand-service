@@ -34,17 +34,22 @@ namespace Tgs.BrandService.Repositories
 			{
 				var key = $"Tgs:Maintenance:{brandId}";
 
-				var data = new BrandMaintenanceInfo(
-					command.Content,
-					command.BeginTime,
-					command.EndTime);
+				var data = new BrandMaintenanceInfo
+				{
+					Content = command.Content,
+					BeginTime = command.BeginTime,
+					EndTime = command.EndTime
+				};
+
+				var options = new JsonSerializerOptions();
+				options.Converters.Add(new TimeOnlyConverter());
 
 				_ = await _redisDatabase
 						.StringSetAsync(
 							key,
 							data == null
 								? string.Empty
-								: JsonSerializer.Serialize(data),
+								: JsonSerializer.Serialize(data,options),
 							flags: CommandFlags.FireAndForget)
 						.ConfigureAwait(false);
 			}

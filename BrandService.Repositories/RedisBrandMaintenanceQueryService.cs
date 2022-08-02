@@ -44,7 +44,13 @@ namespace Tgs.BrandService.Repositories
 							.ConfigureAwait(false);
 
 						if (value.HasValue && !string.IsNullOrEmpty(value))
-							return JsonSerializer.Deserialize<BrandMaintenanceInfo?>(value);
+						{
+							var options = new JsonSerializerOptions();
+
+							options.Converters.Add(new TimeOnlyConverter());
+
+							return JsonSerializer.Deserialize<BrandMaintenanceInfo?>(value,options);
+						}
 						else
 							return null;
 					})
@@ -67,12 +73,17 @@ namespace Tgs.BrandService.Repositories
 
 						var key = $"Tgs:Maintenance:{query.BrandId}";
 
+						var options = new JsonSerializerOptions();
+
+						options.Converters.Add(new TimeOnlyConverter());
+
+
 						await _redisDatabase
 							.StringSetAsync(
 								key,
 								data == null
 									? string.Empty
-									: JsonSerializer.Serialize(data),
+									: JsonSerializer.Serialize(data, options),
 								flags: CommandFlags.FireAndForget)
 							.ConfigureAwait(false);
 

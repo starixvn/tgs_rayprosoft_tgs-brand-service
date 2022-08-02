@@ -77,6 +77,11 @@ namespace Tgs.BrandService
 					options.AddBrandCertificateFilters();
 					options.AddWrapResponseFilters();
 					options.AddWebApiToolkitFilters();
+					options.UseDateOnlyTimeOnlyStringConverters();
+				})
+				.AddJsonOptions(options=>
+				{
+					options.UseDateOnlyTimeOnlyStringConverters();
 				});
 
 			services
@@ -101,11 +106,14 @@ namespace Tgs.BrandService
 
 				options.ApplyTgsWebApiSupport();
 				options.AddBrandCertificateSecurityDefinition();
+				
 
 				var xml = $"Tgs.BrandService.xml";
 				var path = Path.Combine(AppContext.BaseDirectory, xml);
 				if (File.Exists(path))
 					options.IncludeXmlComments(path);
+
+				options.UseDateOnlyTimeOnlyStringConverters();
 			});
 		}
 

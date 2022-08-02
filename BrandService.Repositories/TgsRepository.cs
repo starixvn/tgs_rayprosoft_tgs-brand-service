@@ -39,7 +39,7 @@ namespace Tgs.BrandService.Repositories
 
 			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting);
 		}
-		
+
 		public async ValueTask<BrandMaintenanceInfo?> GetBrandMaintenanceInfoAsync(Guid brandId)
 		{
 			var brandMaintenance = await _dbContext.BrandMaintenances
@@ -48,10 +48,12 @@ namespace Tgs.BrandService.Repositories
 
 			return brandMaintenance == null
 				? null
-				: new BrandMaintenanceInfo(
-				brandMaintenance.Content!,
-				brandMaintenance.BeginTime,
-				brandMaintenance.EndTime);
+				: new BrandMaintenanceInfo
+				{
+					Content = brandMaintenance.Content!,
+					BeginTime = brandMaintenance.BeginTime,
+					EndTime = brandMaintenance.EndTime
+				};
 		}
 	}
 }
