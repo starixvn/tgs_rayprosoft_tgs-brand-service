@@ -63,7 +63,7 @@ namespace Tgs.BrandService
 				{
 					var config = sp.GetRequiredService<IConfiguration>();
 
-					options.ConnectionString = config.GetConnectionString("Redis");
+					options.ConnectionString = config.GetConnectionString("Redis");					
 				})
 				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>()
 				.Decorate<IGetService<BrandLiveChatQuery, BrandLiveChatInfo?>, CachedBrandLiveChatQueryService>()

@@ -28,7 +28,7 @@ namespace Tgs.BrandService.Repositories.Entities
         {
             modelBuilder.HasPostgresExtension("ltree")
                 .HasPostgresExtension("pg_trgm")
-                .HasAnnotation("Relational:Collation", "en_US.utf8");
+                .HasAnnotation("Relational:Collation", "en_US.utf8");			
 
             modelBuilder.Entity<Brand>(entity =>
             {

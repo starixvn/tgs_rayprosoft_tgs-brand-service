@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tgs.BrandService.Repositories.Entities;
 
 namespace Tgs.BrandService.Repositories
@@ -46,14 +47,15 @@ namespace Tgs.BrandService.Repositories
 				.FirstOrDefaultAsync(bm => bm.BrandId == brandId)
 				.ConfigureAwait(false);
 
-			return brandMaintenance == null
-				? null
-				: new BrandMaintenanceInfo
-				{
-					Content = brandMaintenance.Content!,
-					BeginTime = brandMaintenance.BeginTime,
-					EndTime = brandMaintenance.EndTime
-				};
+			if (brandMaintenance == null)
+				return null;
+
+			return new BrandMaintenanceInfo
+			{
+				Content = brandMaintenance.Content ?? string.Empty,
+				BeginTime = brandMaintenance.BeginTime,
+				EndTime = brandMaintenance.EndTime
+			};
 		}
 	}
 }

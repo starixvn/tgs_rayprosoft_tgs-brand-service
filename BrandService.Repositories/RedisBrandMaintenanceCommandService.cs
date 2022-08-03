@@ -39,17 +39,14 @@ namespace Tgs.BrandService.Repositories
 					Content = command.Content,
 					BeginTime = command.BeginTime,
 					EndTime = command.EndTime
-				};
-
-				var options = new JsonSerializerOptions();
-				options.Converters.Add(new TimeOnlyConverter());
+				};				
 
 				_ = await _redisDatabase
 					.StringSetAsync(
 						key,
 						data == null
 							? string.Empty
-							: JsonSerializer.Serialize(data, options),
+							: JsonSerializer.Serialize(data),
 						flags: CommandFlags.FireAndForget)
 					.ConfigureAwait(false);
 			}
