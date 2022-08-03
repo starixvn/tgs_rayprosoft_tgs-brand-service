@@ -98,7 +98,8 @@ pipeline {
                                 --set image.tag=${TAG} \
                                 --set namespace=${kube_ns} \
                                 --set connectionStrings.tgs="${conn}" \
-                                --set connectionStrings.redis="${tgs_redis}"
+                                --set connectionStrings.redis="${tgs_redis}" \
+                                --set connectionStrings.nats="${tgs_nats}"
                         '''
                         sh '''
                             helm template deployment/k8s/brand-api \
@@ -106,6 +107,7 @@ pipeline {
                                 --set namespace=${kube_ns} \
                                 --set connectionStrings.tgs="${conn}" \
                                 --set connectionStrings.redis="${tgs_redis}" \
+                                --set connectionStrings.nats="${tgs_nats}" \
                             | kubectl -n ${kube_ns} apply -f -
                         '''
                     }
