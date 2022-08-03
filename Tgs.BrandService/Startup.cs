@@ -63,11 +63,11 @@ namespace Tgs.BrandService
 				{
 					var config = sp.GetRequiredService<IConfiguration>();
 
-					options.ConnectionString = config.GetConnectionString("Redis");					
+					options.ConnectionString = config.GetConnectionString("Redis");
 				})
 				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>()
 				.Decorate<IGetService<BrandLiveChatQuery, BrandLiveChatInfo?>, CachedBrandLiveChatQueryService>()
-				.Decorate<IGetService<BrandMaintenanceQuery,BrandMaintenanceInfo?>, CachedBrandMaintenanceQueryService>();
+				.Decorate<IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo?>, CachedBrandMaintenanceQueryService>();
 
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services
@@ -79,19 +79,27 @@ namespace Tgs.BrandService
 					options.AddWebApiToolkitFilters();
 					options.UseDateOnlyTimeOnlyStringConverters();
 				})
-				.AddJsonOptions(options=>
+				.AddJsonOptions(options =>
 				{
 					options.UseDateOnlyTimeOnlyStringConverters();
 				});
 
 			services
-				.AddMessageQueue()
-				.AddNatsMessageQueue(natsConfig => natsConfig
-					.ConfigQueueOptions((options, sp) => options.Url = sp.GetRequiredService<IConfiguration>().GetConnectionString("Nats"))					
+			.AddMessageQueue()
+			.AddNatsMessageQueue(natsConfig =>
+			{
+				natsConfig
+					.ConfigQueueOptions((options, sp) =>
+					{
+						var config = sp.GetRequiredService<IConfiguration>();
+
+						options.Url = config.GetConnectionString("Nats");
+					})
 					.AddHandler(ProcessorTypes.ClearMaintenanceMemoryCacheHandlerType,
 						"tgs.brandservice.maintenance.cache.clear",
-						"tgs.brandservice.maintenance.cache.clear"))
-					.AddNatsGlobPatternExchange("*");			
+						 "tgs.brandservice.maintenance.cache.clear");
+			})
+			.AddNatsGlobPatternExchange("*");
 
 			services.AddHealthChecks();
 			services.AddSwaggerGen(options =>
@@ -106,7 +114,6 @@ namespace Tgs.BrandService
 
 				options.ApplyTgsWebApiSupport();
 				options.AddBrandCertificateSecurityDefinition();
-				
 
 				var xml = $"Tgs.BrandService.xml";
 				var path = Path.Combine(AppContext.BaseDirectory, xml);
