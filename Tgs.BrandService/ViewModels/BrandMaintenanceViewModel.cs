@@ -5,12 +5,12 @@ namespace Tgs.BrandService.ViewModels
 {
 	public class BrandMaintenanceViewModel
 	{
-		[JsonPropertyName("content")]
-		public string Content { get; init; } = default!;
+		public string Content { get; set; } = default!;
 
-		[JsonPropertyName("begintime")]
-		public DateTimeOffset BeginTime { get; init; }
-		[JsonPropertyName("endtime")]
-		public DateTimeOffset EndTime { get; init; }
+		[JsonConverter(typeof(TimeOnlyConverter))]
+		public TimeOnly BeginTime { get; set; }
+
+		[JsonConverter(typeof(TimeOnlyConverter))]
+		public TimeOnly EndTime { get; set; }
 	}
 }

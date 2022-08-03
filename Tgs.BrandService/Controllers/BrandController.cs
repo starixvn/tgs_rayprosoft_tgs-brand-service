@@ -71,7 +71,9 @@ namespace Tgs.BrandService.Controllers
 
 			return new BrandMaintenanceViewModel
 			{
-				Content = info.Content
+				Content = info.Content,
+				BeginTime = info.BeginTime,
+				EndTime = info.EndTime
 			};
 		}
 

@@ -8,9 +8,9 @@ namespace Tgs.BrandService.Repositories.Entities
     public partial class BrandMaintenance
     {
         public Guid Id { get; set; }
-        public DateTimeOffset BeginTime { get; set; }
+        public TimeOnly BeginTime { get; set; }
         public Guid BrandId { get; set; }
         public string? Content { get; set; }
-        public DateTimeOffset EndTime { get; set; }
+        public TimeOnly EndTime { get; set; }
     }
 }

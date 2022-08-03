@@ -32,7 +32,7 @@ namespace Tgs.BrandService.Models
 					query.BrandId,
 					_ => new SemaphoreSlim(1, 1));
 
-				await lockObject.WaitAsync().ConfigureAwait(false);
+				await lockObject.WaitAsync(cancellationToken).ConfigureAwait(false);
 
 				try
 				{
@@ -42,7 +42,7 @@ namespace Tgs.BrandService.Models
 							.GetAsync(query, cancellationToken)
 							.ConfigureAwait(false);
 
-						_memoryCache.Set(
+						_ = _memoryCache.Set(
 							key,
 							cachedData,
 							TimeSpan.FromSeconds(10D));
@@ -50,7 +50,7 @@ namespace Tgs.BrandService.Models
 				}
 				finally
 				{
-					lockObject.Release();
+					_ = lockObject.Release();
 				}
 			}
 

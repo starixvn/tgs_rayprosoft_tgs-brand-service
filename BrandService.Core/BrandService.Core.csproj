@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+	  <PackageReference Include="DateOnlyTimeOnly.AspNet" Version="1.0.3" />
+	  <PackageReference Include="DateOnlyTimeOnly.AspNet.Swashbuckle" Version="1.0.3" />
 	  <PackageReference Include="Google.Protobuf" Version="3.21.3" />
 	  <PackageReference Include="Grpc.Tools" Version="2.47.0">
 		  <PrivateAssets>all</PrivateAssets>

@@ -49,5 +49,6 @@ namespace Tgs.BrandService.Repositories.Entities
         public bool EnableEmailRegisterFlow { get; set; }
         public string? PlayerRegisterFlowSettings { get; set; }
         public bool EnableBankInfoRegisterFlow { get; set; }
+        public bool DepositPaymentLockEnabled { get; set; }
     }
 }

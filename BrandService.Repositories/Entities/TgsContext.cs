@@ -28,7 +28,7 @@ namespace Tgs.BrandService.Repositories.Entities
         {
             modelBuilder.HasPostgresExtension("ltree")
                 .HasPostgresExtension("pg_trgm")
-                .HasAnnotation("Relational:Collation", "en_US.utf8");
+                .HasAnnotation("Relational:Collation", "en_US.utf8");			
 
             modelBuilder.Entity<Brand>(entity =>
             {
@@ -95,6 +95,8 @@ namespace Tgs.BrandService.Repositories.Entities
                     .HasDefaultValueSql("'0001-01-01 00:00:00+00'::timestamp with time zone");
 
                 entity.Property(e => e.DepositHandlingFeeRateTenPercentile).HasColumnName("deposit_handling_fee_rate_ten_percentile");
+
+                entity.Property(e => e.DepositPaymentLockEnabled).HasColumnName("deposit_payment_lock_enabled");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(256)
@@ -251,7 +253,7 @@ namespace Tgs.BrandService.Repositories.Entities
                     .HasColumnName("id");
 
                 entity.Property(e => e.BeginTime)
-                    .HasColumnType("timestamp with time zone")
+                    .HasColumnType("time without time zone")
                     .HasColumnName("begin_time");
 
                 entity.Property(e => e.BrandId).HasColumnName("brand_id");
@@ -261,7 +263,7 @@ namespace Tgs.BrandService.Repositories.Entities
                     .HasColumnName("content");
 
                 entity.Property(e => e.EndTime)
-                    .HasColumnType("timestamp with time zone")
+                    .HasColumnType("time without time zone")
                     .HasColumnName("end_time");
             });
 

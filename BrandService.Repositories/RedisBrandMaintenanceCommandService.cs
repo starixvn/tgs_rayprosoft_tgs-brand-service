@@ -34,19 +34,21 @@ namespace Tgs.BrandService.Repositories
 			{
 				var key = $"Tgs:Maintenance:{brandId}";
 
-				var data = new BrandMaintenanceInfo(
-					command.Content,
-					command.BeginTime,
-					command.EndTime);
+				var data = new BrandMaintenanceInfo
+				{
+					Content = command.Content,
+					BeginTime = command.BeginTime,
+					EndTime = command.EndTime
+				};				
 
 				_ = await _redisDatabase
-						.StringSetAsync(
-							key,
-							data == null
-								? string.Empty
-								: JsonSerializer.Serialize(data),
-							flags: CommandFlags.FireAndForget)
-						.ConfigureAwait(false);
+					.StringSetAsync(
+						key,
+						data == null
+							? string.Empty
+							: JsonSerializer.Serialize(data),
+						flags: CommandFlags.FireAndForget)
+					.ConfigureAwait(false);
 			}
 
 			_logger.LogInformation("Batch Update Maintenance Redis Success");
