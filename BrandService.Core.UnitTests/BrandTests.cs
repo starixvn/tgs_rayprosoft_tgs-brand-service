@@ -40,5 +40,20 @@ namespace BrandService.Core.UnitTests
 			_ = fakeTgsRepository.Received(1)
 				.GetBrandLiveChatInfoAsync(query.BrandId);
 		}
+
+		[Test]
+		public async Task Can_Get_BrandMaintenance()
+		{
+			var fakeTgsRepository = Substitute.For<ITgsRepository>();
+
+			var sut = new BrandMaintenanceQueryService(fakeTgsRepository);
+
+			var query = new BrandMaintenanceQuery(Guid.NewGuid());
+
+			await sut.GetAsync(query);
+
+			_ = fakeTgsRepository.Received(1)
+				.GetBrandMaintenanceInfoAsync(query.BrandId);
+		}
 	}
 }

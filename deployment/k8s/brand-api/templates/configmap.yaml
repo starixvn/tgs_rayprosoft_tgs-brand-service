@@ -8,7 +8,8 @@ data:
     {
       "ConnectionStrings": {
         "Tgs": "{{ .Values.connectionStrings.tgs }}",
-        "Redis": "{{ .Values.connectionStrings.redis }}"
+        "Redis": "{{ .Values.connectionStrings.redis }}",
+        "Nats": "{{ .Values.connectionStrings.nats }}"
       },
       "Brand": {
         "BrandCertificateBaseUrl": "{{ .Values.brand.certificateBaseUrl }}"

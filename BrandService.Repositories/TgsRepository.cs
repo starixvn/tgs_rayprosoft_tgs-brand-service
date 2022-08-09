@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tgs.BrandService.Repositories.Entities;
 
 namespace Tgs.BrandService.Repositories
@@ -38,6 +39,23 @@ namespace Tgs.BrandService.Repositories
 				return null;
 
 			return new BrandLiveChatInfo(brandLiveChat.ChatName!, brandLiveChat.ChatSetting);
+		}
+
+		public async ValueTask<BrandMaintenanceInfo?> GetBrandMaintenanceInfoAsync(Guid brandId)
+		{
+			var brandMaintenance = await _dbContext.BrandMaintenances
+				.FirstOrDefaultAsync(bm => bm.BrandId == brandId)
+				.ConfigureAwait(false);
+
+			if (brandMaintenance == null)
+				return null;
+
+			return new BrandMaintenanceInfo
+			{
+				Content = brandMaintenance.Content ?? string.Empty,
+				BeginTime = brandMaintenance.BeginTime,
+				EndTime = brandMaintenance.EndTime
+			};
 		}
 	}
 }

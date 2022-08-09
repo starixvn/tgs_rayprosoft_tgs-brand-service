@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Tgs.BrandService.ApplicationServices;
+using Tgs.BrandService.MessageQueue;
 using Tgs.BrandService.Models;
 using Tgs.ServiceUtility;
 
@@ -65,7 +66,8 @@ namespace Tgs.BrandService
 					options.ConnectionString = config.GetConnectionString("Redis");
 				})
 				.Decorate<IQueryService<BrandCommunicationQuery, BrandCommunicationInfo>, CachedBrandCommunicationQueryService>()
-				.Decorate<IGetService<BrandLiveChatQuery, BrandLiveChatInfo?>, CachedBrandLiveChatQueryService>();
+				.Decorate<IGetService<BrandLiveChatQuery, BrandLiveChatInfo?>, CachedBrandLiveChatQueryService>()
+				.Decorate<IGetService<BrandMaintenanceQuery, BrandMaintenanceInfo?>, CachedBrandMaintenanceQueryService>();
 
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services
@@ -75,7 +77,29 @@ namespace Tgs.BrandService
 					options.AddBrandCertificateFilters();
 					options.AddWrapResponseFilters();
 					options.AddWebApiToolkitFilters();
+					options.UseDateOnlyTimeOnlyStringConverters();
+				})
+				.AddJsonOptions(options =>
+				{
+					options.UseDateOnlyTimeOnlyStringConverters();
 				});
+
+			services
+			.AddMessageQueue()
+			.AddNatsMessageQueue(natsConfig =>
+			{
+				natsConfig
+					.ConfigQueueOptions((options, sp) =>
+					{
+						var config = sp.GetRequiredService<IConfiguration>();
+
+						options.Url = config.GetConnectionString("Nats");
+					})
+					.AddHandler(ProcessorTypes.ClearMaintenanceMemoryCacheHandlerType,
+						"tgs.brandservice.maintenance.cache.clear",
+						 "tgs.brandservice.maintenance.cache.clear");
+			})
+			.AddNatsGlobPatternExchange("*");
 
 			services.AddHealthChecks();
 			services.AddSwaggerGen(options =>
@@ -95,6 +119,8 @@ namespace Tgs.BrandService
 				var path = Path.Combine(AppContext.BaseDirectory, xml);
 				if (File.Exists(path))
 					options.IncludeXmlComments(path);
+
+				options.UseDateOnlyTimeOnlyStringConverters();
 			});
 		}
 

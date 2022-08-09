@@ -9,5 +9,7 @@ namespace Tgs.BrandService
 		IAsyncEnumerable<BrandCommunicationInfo> GetBrandCommunicationsAsync(Guid brandId);
 
 		ValueTask<BrandLiveChatInfo?> GetBrandLiveChatInfoAsync(Guid brandId);
+
+		ValueTask<BrandMaintenanceInfo?> GetBrandMaintenanceInfoAsync(Guid brandId);
 	}
 }
