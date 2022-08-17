@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: harbor.rpgp.cc/tgs/brand-api
+  repository: pgtgs/brand-api
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -13,13 +13,14 @@ image:
 namespace: dev
 
 imagePullSecrets:
-  - name: secret-tgs-harbor
+  - name: dockerhub
 nameOverride: "brand-api"
 fullnameOverride: "brand-api"
 
 connectionStrings:
   tgs: Server=localhost;Database=tgs;User Id=tgs;Password=1qaz2wsx!@
   redis: localhost,abortConnect=false,connectTimeout=3000
+  nats: nats://localhost:4222
 
 brand:
   certificateBaseUrl: http://brand-cert-api

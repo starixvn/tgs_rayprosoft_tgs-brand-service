@@ -28,16 +28,22 @@
       {
          "Name": "dbo.brand_live_chats",
          "ObjectType": 0
+      },
+      {
+         "Name": "dbo.brand_maintenance",
+         "ObjectType": 0
       }
    ],
-   "UiHint": ".tgs",
+   "UiHint": "LocalDB",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
+   "UseHierarchyId": false,
    "UseInflector": true,
    "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
    "UseNoConstructor": true,
    "UseNoDefaultConstructor": false,
    "UseNoNavigations": true,
