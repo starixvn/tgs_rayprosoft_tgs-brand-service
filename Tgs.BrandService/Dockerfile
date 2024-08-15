@@ -1,13 +1,6 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-ARG BuildConfiguration=Release
-RUN --mount=type=secret,id=nuget,dst=/pat cp /pat ~/.nuget/NuGet/NuGet.Config
+FROM hub.lumigame.com/base/dotnet/core/sdk:8.0 AS build
 RUN dotnet nuget remove source 'Microsoft Visual Studio Offline Packages' || true
+ARG BuildConfiguration=Release
 WORKDIR /src
 COPY ["nuget.config", "."]
 COPY ["Tgs.BrandService/Tgs.BrandService.csproj", "Tgs.BrandService/"]
@@ -22,6 +15,8 @@ FROM build AS publish
 ARG BuildConfiguration
 RUN dotnet publish "Tgs.BrandService.csproj" -c $BuildConfiguration -o /app/publish
 
+FROM hub.lumigame.com/base/dotnet/core/aspnet:8.0-alpine-24h1.1 AS base
+USER app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,13 +14,15 @@ namespace Tgs.BrandService
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((_, builder) =>
-				{
-					builder.AddJsonFile("/config/appsettings.json", true);
-				})
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder.UseStartup<Startup>();
-				});
+			.ConfigureWebHostDefaults(webBuilder =>
+			{
+				var configuration = new ConfigurationBuilder()
+					.SetBasePath(Directory.GetCurrentDirectory())
+					.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+					.Build();
+
+				webBuilder.UseUrls($"http://0.0.0.0:{configuration["HostingPort"]}");
+				webBuilder.UseStartup<Startup>();
+			});
 	}
 }

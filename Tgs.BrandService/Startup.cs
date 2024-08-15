@@ -24,27 +24,6 @@ namespace Tgs.BrandService
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services
-				.AddCors()
-				.AddOptions<CorsOptions>()
-				.Configure<IConfiguration>((options, config) =>
-				{
-					var urls = config.GetSection("CorsDomain:Urls")
-						.GetChildren()
-						.Select(t => t.Get<string>())
-						.ToArray();
-
-					if (urls != null)
-						options.AddDefaultPolicy(
-							builder =>
-							{
-								builder.WithOrigins(urls)
-									.AllowAnyHeader()
-									.AllowAnyMethod()
-									.SetIsOriginAllowed(_ => true);
-							});
-				});
-
-			services
 				.AddBrandCertificateClient((options, sp) =>
 				{
 					var config = sp.GetRequiredService<IConfiguration>();
@@ -132,7 +111,11 @@ namespace Tgs.BrandService
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseCors();
+			app.UseCors(x =>
+			x.AllowAnyHeader()
+			.AllowAnyHeader()
+			.SetIsOriginAllowed(origin => true)
+			.AllowCredentials());
 
 			app.UseBrandCertificate();
 			app.UseSwaggerUI(options =>
@@ -145,6 +128,7 @@ namespace Tgs.BrandService
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapHealthChecks("/");
 				endpoints.MapHealthChecks("/healthz");
 				endpoints.MapSwagger();
 			});
