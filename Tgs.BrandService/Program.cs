@@ -22,6 +22,7 @@ namespace Tgs.BrandService
 					.Build();
 
 				webBuilder.UseUrls($"http://0.0.0.0:{configuration["HostingPort"]}");
+				webBuilder.UseSentry();
 				webBuilder.UseStartup<Startup>();
 			});
 	}
