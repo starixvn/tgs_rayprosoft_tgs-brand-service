@@ -17,14 +17,6 @@ imagePullSecrets:
 nameOverride: "brand-api"
 fullnameOverride: "brand-api"
 
-connectionStrings:
-  tgs: Server=localhost;Database=tgs;User Id=tgs;Password=1qaz2wsx!@
-  redis: localhost,abortConnect=false,connectTimeout=3000
-  nats: nats://localhost:4222
-
-brand:
-  certificateBaseUrl: http://brand-cert-api
-
 podAnnotations: {}
 
 podSecurityContext: {}
@@ -41,6 +33,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  targetPort: 8080
 
 ingress:
   enabled: false
@@ -69,6 +62,25 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
+monitorResources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+    
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  periodSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  periodSeconds: 5
 
 autoscaling:
   enabled: false
